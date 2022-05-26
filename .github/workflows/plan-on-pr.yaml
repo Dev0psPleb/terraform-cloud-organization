@@ -1,0 +1,144 @@
+# plan-on-pr.yaml
+name: Plan / Test on PR
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Run terraform fmt check
+        run: terraform fmt -check -diff -recursive ./terraform
+
+  plan:
+    name: Plan
+    environment:
+      name: production
+      url: https://github.com
+    env:
+      TF_VAR_admin_email: ${{ secrets.ADMIN_EMAIL }}
+      TF_VAR_organization_name: ${{ secrets.ORGANIZATION_NAME }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        path:
+          - terraform
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Write remote.tf file
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ matrix.path }}
+          contents: |
+            terraform {
+              cloud {
+                organization = "${{ secrets.ORGANIZATION_NAME }}"
+
+                workspaces {
+                  name = "${{ secrets.ORGANIZATION_NAME }}"
+                }
+              }
+            }
+
+      - name: Write private.tfvars file
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ matrix.path }}
+          contents: |
+            workspace = {
+              sophos-xdr = {
+                add_vcs_repo                  = true
+                agent_pool_id                 = ""
+                allow_destroy_plan            = false
+                auto_apply                    = true
+                create_variable_set           = true
+                execution_mode                = "remote"
+                file_triggers_enabled         = false
+                global                        = true
+                global_remote_state           = true
+                name                          = "${{ secrets.ORGANIZATION_NAME }}"
+                oauth_token_id                = ""
+                organization                  = ""
+                queue_all_runs                = false
+                remote_state_consumer_ids     = ""
+                speculative_enabled           = false
+                structured_run_output_enabled = true
+                ssh_key_id                    = ""
+                terraform_version             = ""
+                tfe_token                     = ""
+                trigger_prefixes              = [""]
+                tags                          = ["${{ secrets.ORGANIZATION_NAME }}"]
+                vcs_branch                    = "main"
+                vcs_repository                = "${{ github.repository }}"
+                workspace_description         = "Backend remote state for ${{ secrets.ORGANIZATION_NAME }}"
+                working_directory             = "./terraform"
+                workspace_variable            = false
+              }
+            }
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Initialize Terraform
+        run: |
+          cd ${{ matrix.path }}
+          terraform init -input=false
+
+      - name: Plan Terraform
+        id: plan
+        continue-on-error: true
+        run: |
+          cd ${{ matrix.path }}
+          terraform plan -input=false -no-color -out=tfplan \
+          && terraform show -no-color tfplan
+        env:
+          TF_VAR_admin_email: ${{ secrets.ADMIN_EMAIL }}
+          TF_VAR_organization_name: ${{ secrets.ORGANIZATION_NAME }}
+          TF_VAR_create_organization: true
+          TF_VAR_github_pat_token: ${{ secrets.PAT }}
+          TF_VAR_terraform_api_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Reformat Plan
+        run: |
+          echo '${{ steps.plan.outputs.stdout || steps.plan.outputs.stderr }}' \
+          | sed -E 's/^([[:space:]]+)([-+])/\2\1/g' > plan.txt
+
+      - name: Put Plan in Env Var
+        run: |
+          PLAN=$(cat plan.txt)
+          echo "PLAN<<EOF" >> $GITHUB_ENV
+          echo "$PLAN" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Post Plan to GitHub PR
+        uses: mshick/add-pr-comment@v1
+        with:
+          allow-repeats: true
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]'
+          message: |
+            ## ${{ matrix.path }} plan
+            ```diff
+            + Green
+            - Red
+            ! Orange
+            @@ Pink @@
+            #Gray
+            ${{ env.PLAN }}
+            ```
+
