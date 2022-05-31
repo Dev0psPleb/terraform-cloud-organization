@@ -31,3 +31,9 @@ variable "service_provider" {
   type        = string
   default     = "github"
 }
+
+variable "terraform_api_token" {
+  description = "Terraform Cloud API Token"
+  type        = string
+  sensitive   = true
+}
