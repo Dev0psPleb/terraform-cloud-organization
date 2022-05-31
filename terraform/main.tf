@@ -1,3 +1,5 @@
+provider "tfe" {}
+
 module "organization" {
   source  = "BrynardSecurity-terraform/terraform-cloud/tfe"
   version = "0.0.9"
