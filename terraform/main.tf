@@ -53,7 +53,7 @@ module "variable_set" {
   source              = "BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_variable_set"
   version             = "0.1.0"
   create_variable_set = true
-  global              = false
+  global              = null
   organization        = module.organization.tfe_organization_id
   variable_set_name   = module.organization.tfe_organization_id
   workspace_ids       = [module.workspace.tfe_workspace_id]
