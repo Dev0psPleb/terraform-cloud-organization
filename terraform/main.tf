@@ -70,6 +70,7 @@ locals {
       hcl             = false
       key             = "organization"
       sensitive       = false
+      variable_set    = true
       workspace_id    = module.workspace.tfe_workspace_id
     }
   }
