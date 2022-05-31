@@ -63,13 +63,14 @@ module "variable_set" {
 locals {
   variable_object = {
     "organization_name" = {
-      value        = local.organization_name
-      category     = "terraform"
-      description  = "Terraform Cloud Organization"
-      hcl          = false
-      key          = "organization"
-      sensitive    = false
-      workspace_id = module.workspace.tfe_workspace_id
+      create_variable = true
+      value           = local.organization_name
+      category        = "terraform"
+      description     = "Terraform Cloud Organization"
+      hcl             = false
+      key             = "organization"
+      sensitive       = false
+      workspace_id    = module.workspace.tfe_workspace_id
     }
   }
 }
