@@ -56,5 +56,5 @@ module "variable_set" {
   global              = false
   organization        = module.organization.tfe_organization_id
   variable_set_name   = module.organization.tfe_organization_id
-  workspace_ids       = module.workspace.tfe_workspace_id
+  workspace_ids       = [module.workspace.tfe_workspace_id]
 }
