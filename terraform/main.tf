@@ -25,7 +25,7 @@ module "oauth_client" {
   oauth_token           = var.github_pat_token
   organization          = module.organization.tfe_organization_id
   service_provider      = var.service_provider
-  tfe_oauth_client_name = "Terraform Cloud (${var.organization_name})"
+  tfe_oauth_client_name = var.service_provider
 }
 
 output "oauth_client_id" {
