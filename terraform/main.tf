@@ -20,7 +20,7 @@ output "organization_id" {
 
 module "oauth_client" {
   source                = "BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_oauth_client"
-  version               = "0.0.9"
+  version               = "0.1.0"
   api_url               = var.api_url
   https_url             = var.https_url
   oauth_token           = var.github_pat_token
@@ -35,7 +35,7 @@ output "oauth_client_id" {
 
 module "workspace" {
   source                = "BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_workspace"
-  version               = "0.0.9"
+  version               = "0.1.0"
   add_vcs_repo          = true
   auto_apply            = true
   file_triggers_enabled = true
@@ -47,4 +47,14 @@ module "workspace" {
   tfe_token             = var.terraform_api_token
   vcs_repository        = var.github_repository
   working_directory     = var.working_directory
+}
+
+module "variable_set" {
+  source              = "BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_variable_set"
+  version             = "0.1.0"
+  create_variable_set = true
+  global              = false
+  organization        = module.organization.tfe_organization_id
+  variable_set_name   = module.organization.tfe_organization_id
+  workspace_ids       = module.workspace.tfe_workspace_id
 }
