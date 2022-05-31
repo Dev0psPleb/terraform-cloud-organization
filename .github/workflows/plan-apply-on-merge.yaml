@@ -43,57 +43,6 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Write remote.tf file
-        uses: DamianReeves/write-file-action@v1.0
-        with:
-          path: ${{ matrix.path }}
-          contents: |
-            terraform {
-              cloud {
-                organization = "${{ secrets.ORGANIZATION_NAME }}"
-
-                workspaces {
-                  name = "${{ secrets.ORGANIZATION_NAME }}"
-                }
-              }
-            }
-
-      - name: Write private.tfvars file
-        uses: DamianReeves/write-file-action@v1.0
-        with:
-          path: ${{ matrix.path }}
-          contents: |
-            workspace = {
-              sophos-xdr = {
-                add_vcs_repo                  = true
-                agent_pool_id                 = ""
-                allow_destroy_plan            = false
-                auto_apply                    = true
-                create_variable_set           = true
-                execution_mode                = "remote"
-                file_triggers_enabled         = false
-                global                        = true
-                global_remote_state           = true
-                name                          = "${{ secrets.ORGANIZATION_NAME }}"
-                oauth_token_id                = ""
-                organization                  = ""
-                queue_all_runs                = false
-                remote_state_consumer_ids     = ""
-                speculative_enabled           = false
-                structured_run_output_enabled = true
-                ssh_key_id                    = ""
-                terraform_version             = ""
-                tfe_token                     = ""
-                trigger_prefixes              = [""]
-                tags                          = ["${{ secrets.ORGANIZATION_NAME }}"]
-                vcs_branch                    = "main"
-                vcs_repository                = "${{ github.repository }}"
-                workspace_description         = "Backend remote state for ${{ secrets.ORGANIZATION_NAME }}"
-                working_directory             = "./terraform"
-                workspace_variable            = false
-              }
-            }
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -115,7 +64,7 @@ jobs:
           TF_VAR_admin_email: ${{ secrets.ADMIN_EMAIL }}
           TF_VAR_organization_name: ${{ secrets.ORGANIZATION_NAME }}
           TF_VAR_create_organization: true
-          TF_VAR_github_pat_token: ${{ secrets.PAT }}
+          TF_VAR_github_pat_token: ${{ secrets.GH_PAT_TOKEN }}
           TF_VAR_terraform_api_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Reformat Plan
