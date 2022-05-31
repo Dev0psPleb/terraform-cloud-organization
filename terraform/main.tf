@@ -1,11 +1,15 @@
 provider "tfe" {}
 
+locals {
+  organization_name = lower(replace("${var.organization_name}", " ", "_"))
+}
+
 module "organization" {
   source  = "BrynardSecurity-terraform/terraform-cloud/tfe"
   version = "0.0.9"
   # insert the 2 required variables here
   admin_email         = var.admin_email
-  name                = var.organization_name
+  name                = local.organization_name
   create_organization = var.create_organization
 }
 
