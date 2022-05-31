@@ -40,6 +40,21 @@ variable "terraform_api_token" {
   type        = string
   sensitive   = true
 }
+variable "variable" {
+  description = "Mapping of variables to variable_set variables"
+  type = map(object({
+    category            = string
+    create_variable_set = bool
+    description         = string
+    description_suffix  = string
+    hcl                 = bool
+    key                 = string
+    sensitive           = bool
+    value               = string
+    variable_set        = bool
+    workspace_id        = string
+  }))
+}
 variable "working_directory" {
   description = "Working directory of the VCS repo."
   type        = string
