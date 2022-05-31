@@ -31,3 +31,12 @@ module "oauth_client" {
 output "oauth_client_id" {
   value = module.oauth_client.oauth_token_id
 }
+
+module "workspace" {
+  source         = "BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_workspace"
+  version        = "0.0.9"
+  name           = local.organization_name
+  oauth_token_id = module.oauth_client.oauth_token_id
+  organization   = module.organization.tfe_organization_id
+  tfe_token      = var.terraform_api_token
+}
