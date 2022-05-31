@@ -17,6 +17,10 @@ variable "github_pat_token" {
   type        = string
   sensitive   = true
 }
+variable "github_repository" {
+  description = "Github Repository to add to Github workspace"
+  type        = string
+}
 variable "https_url" {
   description = "(Required) The homepage of your VCS provider (e.g. https://github.com or https://ghe.example.com)."
   type        = string
