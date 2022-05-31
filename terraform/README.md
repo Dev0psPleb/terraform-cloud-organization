@@ -36,7 +36,6 @@ No resources.
 | <a name="input_organization_name"></a> [organization\_name](#input\_organization\_name) | (Required) Name of the Terraform organization. | `string` | n/a | yes |
 | <a name="input_service_provider"></a> [service\_provider](#input\_service\_provider) | (Required) The VCS provider being connected with. Valid options are ado\_server, ado\_services, bitbucket\_hosted, bitbucket\_server, github, github\_enterprise, gitlab\_hosted, gitlab\_community\_edition, or gitlab\_enterprise\_edition. | `string` | `"github"` | no |
 | <a name="input_terraform_api_token"></a> [terraform\_api\_token](#input\_terraform\_api\_token) | Terraform Cloud API Token | `string` | n/a | yes |
-| <a name="input_variable"></a> [variable](#input\_variable) | Mapping of variables to variable\_set variables | <pre>map(object({<br>    category            = string<br>    create_variable_set = bool<br>    description         = string<br>    description_suffix  = string<br>    hcl                 = bool<br>    key                 = string<br>    sensitive           = bool<br>    value               = string<br>    variable_set        = bool<br>    workspace_id        = string<br>  }))</pre> | n/a | yes |
 | <a name="input_working_directory"></a> [working\_directory](#input\_working\_directory) | Working directory of the VCS repo. | `string` | n/a | yes |
 
 ## Outputs
