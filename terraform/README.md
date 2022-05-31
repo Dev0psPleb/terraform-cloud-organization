@@ -13,11 +13,11 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_oauth_client"></a> [oauth\_client](#module\_oauth\_client) | BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_oauth_client | 0.1.1 |
-| <a name="module_organization"></a> [organization](#module\_organization) | BrynardSecurity-terraform/terraform-cloud/tfe | 0.1.1 |
-| <a name="module_variable_set"></a> [variable\_set](#module\_variable\_set) | BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_variable_set | 0.1.1 |
-| <a name="module_variables"></a> [variables](#module\_variables) | BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_variables | 0.1.1 |
-| <a name="module_workspace"></a> [workspace](#module\_workspace) | BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_workspace | 0.1.1 |
+| <a name="module_oauth_client"></a> [oauth\_client](#module\_oauth\_client) | BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_oauth_client | 0.1.3 |
+| <a name="module_organization"></a> [organization](#module\_organization) | BrynardSecurity-terraform/terraform-cloud/tfe | 0.1.3 |
+| <a name="module_variable_set"></a> [variable\_set](#module\_variable\_set) | BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_variable_set | 0.1.3 |
+| <a name="module_variables"></a> [variables](#module\_variables) | BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_variable | 0.1.3 |
+| <a name="module_workspace"></a> [workspace](#module\_workspace) | BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_workspace | 0.1.3 |
 
 ## Resources
 
