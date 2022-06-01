@@ -81,6 +81,16 @@ locals {
       key             = "terraform_api_token"
       sensitive       = true
       variable_set_id = module.variable_set.tfe_variable_set_id
+    },
+    "working_directory" = {
+      create_variable = true
+      value           = local.organization_name
+      category        = "terraform"
+      description     = "Terraform Cloud Working Directory"
+      hcl             = false
+      key             = "working_directory"
+      sensitive       = false
+      variable_set_id = module.variable_set.tfe_variable_set_id
     }
   }
 }
