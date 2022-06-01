@@ -38,7 +38,7 @@ module "workspace" {
   version               = "0.1.5"
   add_vcs_repo          = true
   auto_apply            = true
-  execution_mode        = "local"
+  execution_mode        = "remote"
   file_triggers_enabled = true
   name                  = local.organization_name
   oauth_token_id        = module.oauth_client.oauth_token_id
