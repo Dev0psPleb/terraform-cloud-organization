@@ -62,13 +62,43 @@ module "variable_set" {
 
 locals {
   variable_object = {
+    "admin_email" = {
+      create_variable = true
+      value           = var.admin_email
+      category        = "terraform"
+      description     = "Organization Administrator Email Address"
+      hcl             = false
+      key             = "admin_email"
+      sensitive       = false
+      variable_set_id = module.variable_set.tfe_variable_set_id
+    },
+    "github_pat_token" = {
+      create_variable = true
+      value           = var.github_pat_token
+      category        = "terraform"
+      description     = "Github Personal Access Token"
+      hcl             = false
+      key             = "github_pat_token"
+      sensitive       = true
+      variable_set_id = module.variable_set.tfe_variable_set_id
+    },
+    "github_repository" = {
+      create_variable = true
+      value           = var.github_repository
+      category        = "terraform"
+      description     = "Github Repository to add to Github workspace"
+      hcl             = false
+      key             = "github_repository"
+      sensitive       = false
+      variable_set_id = module.variable_set.tfe_variable_set_id
+    },
     "organization_name" = {
       create_variable = true
       value           = local.organization_name
       category        = "terraform"
       description     = "Terraform Cloud Organization"
       hcl             = false
-      key             = "organization"
+      key             = "organization_name"
       sensitive       = false
       variable_set_id = module.variable_set.tfe_variable_set_id
     },
