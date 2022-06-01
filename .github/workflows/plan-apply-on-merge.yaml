@@ -4,8 +4,6 @@ name: Plan /Apply On Merge
 on:
   push:
     branches: [main]
-  pull_request:
-    types: [closed]
 
 jobs:
   inform_about_apply:
