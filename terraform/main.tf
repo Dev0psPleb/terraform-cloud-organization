@@ -26,7 +26,7 @@ module "oauth_client" {
   oauth_token           = var.github_pat_token
   organization          = module.organization.tfe_organization_id
   service_provider      = var.service_provider
-  tfe_oauth_client_name = "Terraform0.1.1 Cloud - ${local.organization_name}"
+  tfe_oauth_client_name = "Terraform Cloud - ${local.organization_name}"
 }
 
 output "oauth_client_id" {
@@ -38,7 +38,7 @@ module "workspace" {
   version               = "0.1.5"
   add_vcs_repo          = true
   auto_apply            = true
-  execution_mode        = "local"
+  execution_mode        = "remote"
   file_triggers_enabled = true
   name                  = local.organization_name
   oauth_token_id        = module.oauth_client.oauth_token_id
@@ -80,6 +80,16 @@ locals {
       hcl             = false
       key             = "terraform_api_token"
       sensitive       = true
+      variable_set_id = module.variable_set.tfe_variable_set_id
+    },
+    "working_directory" = {
+      create_variable = true
+      value           = local.organization_name
+      category        = "terraform"
+      description     = "Terraform Cloud Working Directory"
+      hcl             = false
+      key             = "working_directory"
+      sensitive       = false
       variable_set_id = module.variable_set.tfe_variable_set_id
     }
   }
