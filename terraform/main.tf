@@ -96,5 +96,5 @@ module "variables" {
   key                = each.value.key
   sensitive          = each.value.sensitive
   value              = each.value.value
-  workspace_id       = module.workspace.tfe_workspace_id
+  variable_set_id    = each.value.variable_set_id
 }
