@@ -114,7 +114,7 @@ locals {
     },
     "working_directory" = {
       create_variable = true
-      value           = local.organization_name
+      value           = var.working_directory
       category        = "terraform"
       description     = "Terraform Cloud Working Directory"
       hcl             = false
