@@ -87,6 +87,7 @@ locals {
 module "variables" {
   source             = "BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_variable"
   version            = "0.1.4"
+  depends_on         = [module.variable_set]
   for_each           = local.variable_object
   category           = each.value.category
   create_variable    = each.value.create_variable
