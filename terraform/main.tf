@@ -73,6 +73,9 @@ locals {
       structured_run_output_enabled = true
       tags                          = ["source:aws", "env:dev", "aws_account_id:010062078576", "aws_region:us-east-1"]
       tfe_token                     = var.terraform_api_token
+      vcs_repository                = "sophos-iaas/terraform-aws-vpc"
+      vcs_branch                    = "main"
+      working_directory             = "/"
     }
   }
 }
@@ -95,6 +98,9 @@ module "workspace" {
   structured_run_output_enabled = each.value.structured_run_output_enabled
   tags                          = each.value.tags
   tfe_token                     = each.value.tfe_token
+  vcs_repository                = each.value.vcs_repository
+  vcs_branch                    = each.value.vcs_branch
+  working_directory             = each.value.working_directory
 }
 /*
 module "variable_set" {
