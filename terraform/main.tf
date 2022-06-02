@@ -1,7 +1,3 @@
-terraform {
-  backend "remote" {}
-}
-
 provider "tfe" {}
 
 locals {

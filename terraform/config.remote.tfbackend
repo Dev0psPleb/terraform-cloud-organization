@@ -1,6 +1,4 @@
-organization = local.organization_name
+organization = "esg_xdr_demo_environment"
 workspaces {
-  name = local.organization_name
-  prefix = "infra-"
-  tags = ["prod", "${local.organization_name}"]
+  name = "esg_xdr_demo_environment"
 }
