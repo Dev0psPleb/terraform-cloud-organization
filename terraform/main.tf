@@ -73,7 +73,6 @@ locals {
       structured_run_output_enabled = true
       tags                          = ["source:aws", "env:dev", "aws_account_id:010062078576", "aws_region:us-east-1"]
       tfe_token                     = var.terraform_api_token
-      trigger_prefixes              = [""]
     }
   }
 }
@@ -96,7 +95,6 @@ module "workspace" {
   structured_run_output_enabled = each.value.structured_run_output_enabled
   tags                          = each.value.tags
   tfe_token                     = each.value.tfe_token
-  trigger_prefixes              = each.value.trigger_prefixes
 }
 /*
 module "variable_set" {
