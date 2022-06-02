@@ -1,6 +1,7 @@
 variable "account_id" {
   description = "AWS Account ID"
   type        = string
+  default     = ""
 }
 variable "admin_email" {
   description = "Organization Administrator Email Address"
