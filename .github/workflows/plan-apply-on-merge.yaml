@@ -23,6 +23,8 @@ jobs:
   set_deployment_environment:
     name: deployment environment
     runs-on: ubuntu-latest
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
     steps:
       - name: Set env to development
         if: endsWith(github.ref, '/development')
