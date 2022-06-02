@@ -1,6 +1,6 @@
 terraform {
   cloud {
-    organization = "esg_se_xdr_demo_prod"
+    organization = "esg_se_xdr_demo_environment"
 
     workspaces {
       name = "terraform_cloud_organization"
@@ -60,33 +60,43 @@ data "terraform_remote_state" "tfc_organization" {
 locals {
   workspace_object = {
     "vpc-us-east-1" = {
-      add_vcs_repo          = true
-      auto_apply            = false
-      execution_mode        = "local"
-      file_triggers_enabled = false
-      name                  = "vpc-us-east-1"
-      oauth_token_id        = data.terraform_remote_state.tfc_organization.outputs.oauth_client_id
-      queue_all_runs        = false
-      tags                  = ["source:aws", "env:dev", "env:prod", "env:stage", "aws_account_id:010062078576", "aws_region:us-east-1"]
-      tfe_token             = var.terraform_api_token
+      allow_destroy_plan            = false
+      add_vcs_repo                  = true
+      auto_apply                    = false
+      execution_mode                = "local"
+      file_triggers_enabled         = false
+      global_remote_state           = true
+      name                          = "vpc-us-east-1"
+      oauth_token_id                = data.terraform_remote_state.tfc_organization.outputs.oauth_client_id
+      queue_all_runs                = false
+      speculative_enabled           = false
+      structured_run_output_enabled = true
+      tags                          = ["source:aws", "env:dev", "aws_account_id:010062078576", "aws_region:us-east-1"]
+      tfe_token                     = var.terraform_api_token
+      trigger_prefixes              = [""]
     }
   }
 }
 
 module "workspace" {
-  source                = "BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_workspace"
-  version               = "0.1.5"
-  for_each              = local.workspace_object
-  add_vcs_repo          = each.value.add_vcs_repo
-  auto_apply            = each.value.auto_apply
-  execution_mode        = each.value.execution_mode
-  file_triggers_enabled = each.value.file_triggers_enabled
-  name                  = each.value.name
-  oauth_token_id        = each.value.oauth_token_id
-  organization          = module.organization.tfe_organization_id
-  queue_all_runs        = each.value.queue_all_runs
-  tags                  = each.value.tags
-  tfe_token             = each.value.tfe_token
+  source                        = "BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_workspace"
+  version                       = "0.1.5"
+  for_each                      = local.workspace_object
+  allow_destroy_plan            = each.value.allow_destroy_plan
+  add_vcs_repo                  = each.value.add_vcs_repo
+  auto_apply                    = each.value.auto_apply
+  execution_mode                = each.value.execution_mode
+  file_triggers_enabled         = each.value.file_triggers_enabled
+  global_remote_state           = each.value.global_remote_state
+  name                          = each.value.name
+  oauth_token_id                = each.value.oauth_token_id
+  organization                  = module.organization.tfe_organization_id
+  queue_all_runs                = each.value.queue_all_runs
+  speculative_enabled           = each.value.speculative_enabled
+  structured_run_output_enabled = each.value.structured_run_output_enabled
+  tags                          = each.value.tags
+  tfe_token                     = each.value.tfe_token
+  trigger_prefixes              = each.value.trigger_prefixes
 }
 /*
 module "variable_set" {
