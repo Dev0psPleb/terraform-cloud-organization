@@ -75,7 +75,7 @@ locals {
       tfe_token                     = var.terraform_api_token
       vcs_repository                = "sophos-iaas/terraform-aws-vpc"
       vcs_branch                    = "main"
-      working_directory             = "/"
+      working_directory             = "./us-east-1"
     }
   }
 }
