@@ -62,13 +62,13 @@ locals {
     "vpc-us-east-1" = {
       allow_destroy_plan            = true
       add_vcs_repo                  = true
-      auto_apply                    = false
+      auto_apply                    = true
       execution_mode                = "local"
       file_triggers_enabled         = false
       global_remote_state           = true
       name                          = "vpc-us-east-1"
       oauth_token_id                = data.terraform_remote_state.tfc_organization.outputs.oauth_client_id
-      queue_all_runs                = false
+      queue_all_runs                = true
       speculative_enabled           = false
       structured_run_output_enabled = true
       tags                          = ["source:aws", "env:dev", "aws_account_id:010062078576", "aws_region:us-east-1"]
