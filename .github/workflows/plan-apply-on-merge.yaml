@@ -20,6 +20,25 @@ jobs:
             ***Running terraform apply***
             Results will display here momentarily...
 
+  set_deployment_environment:
+    name: deployment environment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set env to development
+        if: endsWith(github.ref, '/development')
+        run: |
+          echo "::set-env name=ENVIRONMENT::development"
+
+      - name: Set env to stage
+        if: endsWith(github.ref, '/stage')
+        run: |
+          echo "::set-env name=ENVIRONMENT::stage"
+
+      - name: Set env to production
+        if: endsWith(github.ref, '/main')
+        run: |
+          echo "::set-env name=ENVIRONMENT::production"
+
   plan_and_apply:
     name: Plan and Apply
     environment:
@@ -51,7 +70,7 @@ jobs:
       - name: Initialize Terraform
         run: |
           cd ${{ matrix.path }}
-          terraform init -input=false
+          terraform init -input=false -upgrade
 
       - name: Plan Terraform
         id: plan
