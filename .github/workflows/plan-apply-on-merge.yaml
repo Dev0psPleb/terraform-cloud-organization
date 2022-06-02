@@ -3,6 +3,8 @@ name: Plan /Apply On Merge
 
 on:
   push:
+    branches: [development, stage]
+  pull_request:
     branches: [main]
 
 jobs:
