@@ -1,3 +1,7 @@
+variable "account_id" {
+  description = "AWS Account ID"
+  type        = string
+}
 variable "admin_email" {
   description = "Organization Administrator Email Address"
   type        = string
@@ -20,6 +24,7 @@ variable "github_pat_token" {
 variable "github_repository" {
   description = "Github Repository to add to Github workspace"
   type        = string
+  default     = ""
 }
 variable "https_url" {
   description = "(Required) The homepage of your VCS provider (e.g. https://github.com or https://ghe.example.com)."

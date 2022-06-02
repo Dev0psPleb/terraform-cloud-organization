@@ -1,0 +1,5 @@
+organization = "esg_xdr_demo_environment"
+workspaces {
+  name = "esg_xdr_demo_environment"
+  tags = ["source:github", "prod", "aws_account_id:010062078576"]
+}

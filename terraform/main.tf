@@ -1,8 +1,17 @@
+terraform {
+  cloud {
+    organization = "esg_se_xdr_demo_prod"
+
+    workspaces {
+      name = "terraform_cloud_organization"
+    }
+  }
+}
 provider "tfe" {}
 
 locals {
   organization_name = lower(replace("${var.organization_name}", " ", "_"))
-  tags              = ["prod", "${local.organization_name}"]
+  tags              = ["source:github", "prod", "aws_account_id:${var.account_id}"]
 }
 
 module "organization" {
@@ -32,6 +41,11 @@ module "oauth_client" {
 output "oauth_client_id" {
   value = module.oauth_client.oauth_token_id
 }
+
+/*
+
+    Commenting out this section to test initialization of this workspaces backend with a backend config file
+
 
 module "workspace" {
   source                = "BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_workspace"
@@ -114,7 +128,7 @@ locals {
     },
     "working_directory" = {
       create_variable = true
-      value           = var.working_directory
+      value           = local.organization_name
       category        = "terraform"
       description     = "Terraform Cloud Working Directory"
       hcl             = false
@@ -140,3 +154,4 @@ module "variables" {
   value              = each.value.value
   variable_set_id    = each.value.variable_set_id
 }
+*/
