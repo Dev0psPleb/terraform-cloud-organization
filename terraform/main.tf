@@ -60,7 +60,7 @@ data "terraform_remote_state" "tfc_organization" {
 locals {
   workspace_object = {
     "vpc-us-east-1" = {
-      allow_destroy_plan            = false
+      allow_destroy_plan            = true
       add_vcs_repo                  = true
       auto_apply                    = false
       execution_mode                = "local"
