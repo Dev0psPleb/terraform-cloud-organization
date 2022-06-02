@@ -1,8 +1,17 @@
+terraform {
+  cloud {
+    organization = "esg_se_xdr_demo_prod"
+
+    workspaces {
+      name = "terraform_cloud_organization"
+    }
+  }
+}
 provider "tfe" {}
 
 locals {
   organization_name = lower(replace("${var.organization_name}", " ", "_"))
-  tags              = ["prod", "${local.organization_name}"]
+  tags              = ["source:github", "prod", "aws_account_id:${var.account_id}"]
 }
 
 module "organization" {
