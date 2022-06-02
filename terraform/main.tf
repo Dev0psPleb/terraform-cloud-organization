@@ -11,7 +11,6 @@ provider "tfe" {}
 
 locals {
   organization_name = lower(replace("${var.organization_name}", " ", "_"))
-  tags              = ["source:github", "prod", "aws_account_id:${var.account_id}"]
 }
 
 module "organization" {
