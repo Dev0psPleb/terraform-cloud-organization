@@ -7,7 +7,9 @@ No requirements.
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
 
 ## Modules
 
@@ -15,10 +17,13 @@ No providers.
 |------|--------|---------|
 | <a name="module_oauth_client"></a> [oauth\_client](#module\_oauth\_client) | BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_oauth_client | 0.1.5 |
 | <a name="module_organization"></a> [organization](#module\_organization) | BrynardSecurity-terraform/terraform-cloud/tfe | 0.1.5 |
+| <a name="module_workspace"></a> [workspace](#module\_workspace) | BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_workspace | 0.1.5 |
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [terraform_remote_state.tfc_organization](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/data-sources/remote_state) | data source |
 
 ## Inputs
 

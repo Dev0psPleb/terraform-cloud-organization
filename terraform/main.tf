@@ -46,24 +46,50 @@ output "oauth_client_id" {
 
     Commenting out this section to test initialization of this workspaces backend with a backend config file
 
+*/
+
+data "terraform_remote_state" "tfc_organization" {
+  backend = "remote"
+  config = {
+    organization = module.organization.tfe_organization_id
+    workspaces = {
+      name = "terraform_cloud_organization"
+    }
+  }
+}
+
+locals {
+  workspace_object = {
+    "vpc-us-east-1" = {
+      add_vcs_repo          = true
+      auto_apply            = false
+      execution_mode        = "local"
+      file_triggers_enabled = false
+      name                  = "vpc-us-east-1"
+      oauth_token_id        = data.terraform_remote_state.tfc_organization.outputs.oauth_client_id
+      queue_all_runs        = false
+      tags                  = ["source:aws", "env:dev", "env:prod", "env:stage", "aws_account_id:010062078576", "aws_region:us-east-1"]
+      tfe_token             = var.terraform_api_token
+    }
+  }
+}
 
 module "workspace" {
   source                = "BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_workspace"
   version               = "0.1.5"
-  add_vcs_repo          = true
-  auto_apply            = true
-  execution_mode        = "remote"
-  file_triggers_enabled = true
-  name                  = local.organization_name
-  oauth_token_id        = module.oauth_client.oauth_token_id
+  for_each              = local.workspace_object
+  add_vcs_repo          = each.value.add_vcs_repo
+  auto_apply            = each.value.auto_apply
+  execution_mode        = each.value.execution_mode
+  file_triggers_enabled = each.value.file_triggers_enabled
+  name                  = each.value.name
+  oauth_token_id        = each.value.oauth_token_id
   organization          = module.organization.tfe_organization_id
-  queue_all_runs        = true
-  tags                  = local.tags
-  tfe_token             = var.terraform_api_token
-  vcs_repository        = var.github_repository
-  working_directory     = var.working_directory
+  queue_all_runs        = each.value.queue_all_runs
+  tags                  = each.value.tags
+  tfe_token             = each.value.tfe_token
 }
-
+/*
 module "variable_set" {
   source              = "BrynardSecurity-terraform/terraform-cloud/tfe//modules/tfe_variable_set"
   version             = "0.1.5"
