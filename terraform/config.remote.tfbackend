@@ -1,0 +1,6 @@
+organization = local.organization_name
+workspaces {
+  name = local.organization_name
+  prefix = "infra-"
+  tags = ["prod", "${local.organization_name}"]
+}

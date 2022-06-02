@@ -50,7 +50,7 @@ jobs:
       - name: Initialize Terraform
         run: |
           cd ${{ matrix.path }}
-          terraform init -input=false
+          terraform init -input=false -backend-config=config.remote.tfbackend
 
       - name: Plan Terraform
         id: plan
