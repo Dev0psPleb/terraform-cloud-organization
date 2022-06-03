@@ -1,4 +1,9 @@
 terraform {
+  required_providers {
+    tfe = {
+      version = "~> 0.30.2"
+    }
+  }
   cloud {
     organization = "esg_se_xdr_demo_environment"
 
@@ -94,6 +99,42 @@ locals {
       vcs_repository                = "sophos-iaas/terraform-aws-vpc"
       vcs_branch                    = "main"
       working_directory             = "./us-east-2"
+    },
+    "vpc-us-west-1" = {
+      allow_destroy_plan            = true
+      add_vcs_repo                  = true
+      auto_apply                    = true
+      execution_mode                = "local"
+      file_triggers_enabled         = false
+      global_remote_state           = true
+      name                          = "vpc-us-west-1"
+      oauth_token_id                = data.terraform_remote_state.tfc_organization.outputs.oauth_client_id
+      queue_all_runs                = true
+      speculative_enabled           = false
+      structured_run_output_enabled = true
+      tags                          = ["source:aws", "env:dev", "aws_account_id:010062078576", "aws_region:us-west-1"]
+      tfe_token                     = var.terraform_api_token
+      vcs_repository                = "sophos-iaas/terraform-aws-vpc"
+      vcs_branch                    = "main"
+      working_directory             = "./us-west-1"
+    },
+    "vpc-us-west-2" = {
+      allow_destroy_plan            = true
+      add_vcs_repo                  = true
+      auto_apply                    = true
+      execution_mode                = "local"
+      file_triggers_enabled         = false
+      global_remote_state           = true
+      name                          = "vpc-us-west-2"
+      oauth_token_id                = data.terraform_remote_state.tfc_organization.outputs.oauth_client_id
+      queue_all_runs                = true
+      speculative_enabled           = false
+      structured_run_output_enabled = true
+      tags                          = ["source:aws", "env:dev", "aws_account_id:010062078576", "aws_region:us-west-2"]
+      tfe_token                     = var.terraform_api_token
+      vcs_repository                = "sophos-iaas/terraform-aws-vpc"
+      vcs_branch                    = "main"
+      working_directory             = "./us-west-2"
     }
   }
 }
