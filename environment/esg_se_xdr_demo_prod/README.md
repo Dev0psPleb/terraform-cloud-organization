@@ -15,7 +15,8 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_esg_se_xdr_demo_prod"></a> [esg\_se\_xdr\_demo\_prod](#module\_esg\_se\_xdr\_demo\_prod) | ../../modules/terraform_cloud_organization | n/a |
+| <a name="module_oauth_client"></a> [oauth\_client](#module\_oauth\_client) | ../../modules/terraform_cloud_organization | n/a |
+| <a name="module_organization"></a> [organization](#module\_organization) | ../../modules/terraform_cloud_organization | n/a |
 
 ## Resources
 
