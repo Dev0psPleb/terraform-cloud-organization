@@ -31,7 +31,7 @@ jobs:
       TF_VAR_organization_name: ${{ secrets.ORGANIZATION_NAME }}
       TF_VAR_terraform_api_token: ${{ secrets.TF_API_TOKEN }}
       TF_VAR_working_directory: ${{ matrix.path }}
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
