@@ -32,6 +32,7 @@ jobs:
       TF_VAR_terraform_api_token: ${{ secrets.TF_API_TOKEN }}
       TF_VAR_working_directory: ${{ matrix.path }}
     runs-on: macos-latest
+    environment: development
     strategy:
       fail-fast: false
       matrix:
