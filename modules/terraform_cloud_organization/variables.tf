@@ -33,3 +33,8 @@ variable "service_provider" {
   type        = string
   default     = "github"
 }
+variable "tfe_oauth_client_name" {
+  description = "The name of the Terraform Cloud Oauth Client"
+  type        = string
+  default     = ""
+}

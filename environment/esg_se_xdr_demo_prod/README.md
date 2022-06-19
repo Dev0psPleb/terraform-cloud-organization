@@ -15,7 +15,8 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_esg_se_xdr_demo_prod"></a> [esg\_se\_xdr\_demo\_prod](#module\_esg\_se\_xdr\_demo\_prod) | ../../modules/terraform_cloud_organization | n/a |
+| <a name="module_oauth_client"></a> [oauth\_client](#module\_oauth\_client) | ../../modules/terraform_cloud_organization | n/a |
+| <a name="module_organization"></a> [organization](#module\_organization) | ../../modules/terraform_cloud_organization | n/a |
 
 ## Resources
 
@@ -35,5 +36,8 @@ No resources.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_oauth_client_id"></a> [oauth\_client\_id](#output\_oauth\_client\_id) | n/a |
+| <a name="output_organization_id"></a> [organization\_id](#output\_organization\_id) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
