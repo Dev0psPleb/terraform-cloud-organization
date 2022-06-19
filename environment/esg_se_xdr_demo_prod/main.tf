@@ -13,7 +13,7 @@ module "oauth_client" {
   api_url               = var.api_url
   https_url             = var.https_url
   github_pat_token      = var.github_pat_token
-  organization_name     = module.organization.organization_id
+  organization_name     = var.organization_name
   service_provider      = var.service_provider
-  tfe_oauth_client_name = "Terraform Cloud - ${module.organization.organization_id}"
+  tfe_oauth_client_name = "Terraform Cloud - ${var.organization_name}"
 }
