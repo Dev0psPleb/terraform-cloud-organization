@@ -23,10 +23,7 @@ jobs:
         run: terraform fmt -check -diff -recursive ./
 
   plan:
-    name: Plan
-    environment:
-      name: production
-      url: https://github.com
+    name: Plan ESG SE XDR Demo Prod
     env:
       TF_VAR_admin_email: ${{ secrets.ADMIN_EMAIL }}
       TF_VAR_github_pat_token: ${{ secrets.GH_PAT_TOKEN }}
