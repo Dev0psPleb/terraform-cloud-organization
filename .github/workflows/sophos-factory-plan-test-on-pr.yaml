@@ -1,0 +1,31 @@
+# sophos-factory-plan-test-on-pr.yaml
+name: 'Sophos Factory: Plan/Test on Pull Request'
+
+on:
+  pull_request:
+    branches: [development, staging, main]
+  workflow_dispatch:
+    inputs:
+      project_id:
+        description: 'Project ID that the pipeline exists in'
+        required: true
+      job_id:
+        description: 'Job ID of the pipeline to run'
+        required: true
+      variables:
+        description: 'Input variables for the pipeline.'
+        required: false
+
+jobs:
+  factory_pipeline:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: sophos-factory/run-pipeline@master
+      with:
+        project_id: ${{ inputs.project_id }}
+        job_id: ${{ inputs.job_id }}
+        api_token: ${{ secrets.API_TOKEN }}
+        variables: ${{ inputs.variables }}
+

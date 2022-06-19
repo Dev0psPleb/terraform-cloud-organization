@@ -76,7 +76,7 @@ locals {
       queue_all_runs                = true
       speculative_enabled           = false
       structured_run_output_enabled = true
-      tags                          = ["source:aws", "env:production", "aws_account_id:010062078576", "aws_region:us-east-1"]
+      tags                          = ["source:aws", "env:production", "aws_account_id:010062078576", "aws_region:us-east-1", "resource_type:vpc"]
       tfe_token                     = var.terraform_api_token
       vcs_repository                = "sophos-iaas/terraform-aws-vpc"
       vcs_branch                    = "main"
@@ -94,7 +94,7 @@ locals {
       queue_all_runs                = true
       speculative_enabled           = false
       structured_run_output_enabled = true
-      tags                          = ["source:aws", "env:production", "aws_account_id:010062078576", "aws_region:us-east-2"]
+      tags                          = ["source:aws", "env:production", "aws_account_id:010062078576", "aws_region:us-east-2", "resource_type:vpc"]
       tfe_token                     = var.terraform_api_token
       vcs_repository                = "sophos-iaas/terraform-aws-vpc"
       vcs_branch                    = "main"
@@ -112,7 +112,7 @@ locals {
       queue_all_runs                = true
       speculative_enabled           = false
       structured_run_output_enabled = true
-      tags                          = ["source:aws", "env:production", "aws_account_id:010062078576", "aws_region:us-west-1"]
+      tags                          = ["source:aws", "env:production", "aws_account_id:010062078576", "aws_region:us-west-1", "resource_type:vpc"]
       tfe_token                     = var.terraform_api_token
       vcs_repository                = "sophos-iaas/terraform-aws-vpc"
       vcs_branch                    = "main"
@@ -130,11 +130,29 @@ locals {
       queue_all_runs                = true
       speculative_enabled           = false
       structured_run_output_enabled = true
-      tags                          = ["source:aws", "env:production", "aws_account_id:010062078576", "aws_region:us-west-2"]
+      tags                          = ["source:aws", "env:production", "aws_account_id:010062078576", "aws_region:us-west-2", "resource_type:vpc"]
       tfe_token                     = var.terraform_api_token
       vcs_repository                = "sophos-iaas/terraform-aws-vpc"
       vcs_branch                    = "main"
       working_directory             = "./us-west-2/vpc"
+    },
+    "eks-us-west-2" = {
+      allow_destroy_plan            = true
+      add_vcs_repo                  = true
+      auto_apply                    = true
+      execution_mode                = "local"
+      file_triggers_enabled         = false
+      global_remote_state           = true
+      name                          = "eks-us-west-2"
+      oauth_token_id                = data.terraform_remote_state.tfc_organization.outputs.oauth_client_id
+      queue_all_runs                = true
+      speculative_enabled           = false
+      structured_run_output_enabled = true
+      tags                          = ["source:aws", "env:production", "aws_account_id:010062078576", "aws_region:us-west-2", "resource_type:eks"]
+      tfe_token                     = var.terraform_api_token
+      vcs_repository                = "sophos-iaas/aws-eks-clusters"
+      vcs_branch                    = "main"
+      working_directory             = "./us-west-2/eks"
     }
   }
 }
