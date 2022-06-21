@@ -3,11 +3,6 @@ variable "add_vcs_repo" {
   type        = bool
   default     = false
 }
-variable "admin_email" {
-  description = "Email address of the Terraform Cloud Organization Administrator"
-  type        = string
-  default     = "publiccloud@sophos.com"
-}
 variable "allow_destroy_plan" {
   description = "Whether destroy plans can be queued on the workspace"
   type        = bool
@@ -17,16 +12,6 @@ variable "auto_apply" {
   description = "Whether to automatically apply changes when a Terraform plan is successful. Defaults to false"
   type        = bool
   default     = false
-}
-variable "api_url" {
-  description = "(Required) The base URL of your VCS provider's API (e.g. https://api.github.com or https://ghe.example.com/api/v3)."
-  type        = string
-  default     = "https://api.github.com"
-}
-variable "create_organization" {
-  description = "Boolean: Whether to create the TFC organization"
-  type        = bool
-  default     = true
 }
 variable "execution_mode" {
   description = "Which execution mode to use. Available options: remote, local, or agent"
@@ -47,33 +32,23 @@ variable "global_remote_state" {
   type        = bool
   default     = false
 }
-variable "github_pat_token" {
-  description = "GitHub Personal Access Token"
+variable "name" {
+  description = "Workspace name"
   type        = string
-}
-variable "https_url" {
-  description = "(Required) The homepage of your VCS provider (e.g. https://github.com or https://ghe.example.com)."
-  type        = string
-  default     = "https://github.com"
 }
 variable "oauth_token_id" {
   description = "The output of the tfe_oauth_client module."
   type        = string
   default     = ""
 }
-variable "organization_name" {
-  description = "(Required) Name of the Terraform organization."
+variable "organization" {
+  description = "Terraform Cloud organization which has the backend state-file"
   type        = string
 }
 variable "queue_all_runs" {
   description = "(Optional) Whether the workspace should start automatically performing runs immediately after its creation. Defaults to true. When set to false, runs triggered by a webhook (such as a commit in VCS) will not be queued until at least one run has been manually queued. Note: This default differs from the Terraform Cloud API default, which is false. The provider uses true as any workspace provisioned with false would need to then have a run manually queued out-of-band before accepting webhooks."
   type        = bool
   default     = false
-}
-variable "service_provider" {
-  description = "(Required) The VCS provider being connected with. Valid options are ado_server, ado_services, bitbucket_hosted, bitbucket_server, github, github_enterprise, gitlab_hosted, gitlab_community_edition, or gitlab_enterprise_edition."
-  type        = string
-  default     = "github"
 }
 variable "speculative_enabled" {
   description = "Optional) Whether this workspace allows speculative plans. Defaults to true. Setting this to false prevents Terraform Cloud or the Terraform Enterprise instance from running plans on pull requests, which can improve security if the VCS repository is public or includes untrusted contributors."
@@ -109,8 +84,4 @@ variable "working_directory" {
   description = "Working directory of the VCS repository from which TF plans are run"
   type        = string
   default     = "/"
-}
-variable "workspace_name" {
-  description = "Workspace name"
-  type        = string
 }
