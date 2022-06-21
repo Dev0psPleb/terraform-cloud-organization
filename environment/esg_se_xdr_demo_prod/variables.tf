@@ -59,6 +59,7 @@ variable "https_url" {
 variable "oauth_token_id" {
   description = "The output of the tfe_oauth_client module."
   type        = string
+  default     = ""
 }
 variable "organization_name" {
   description = "(Required) Name of the Terraform organization."
