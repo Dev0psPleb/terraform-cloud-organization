@@ -134,5 +134,14 @@ jobs:
             ```
             ${{ steps.apply.outputs.stderr }}
             ```
-
+      - name: Destroy Terraform
+        if: steps.apply.outcome == 'failure'
+        id: destroy
+        continue-on-error: true
+        run: |
+          cd ${{ matrix.path }}
+          terraform destroy \
+            -input=false \
+            -no-color \
+            tfplan
 
