@@ -10,5 +10,5 @@ module "oauth_client" {
   oauth_token           = var.oauth_token
   organization          = local.organization_name
   service_provider      = var.service_provider
-  tfe_oauth_client_name = var.tfe_oauth_client_name
+  tfe_oauth_client_name = "Terraform Cloud - ${local.organization_name}"
 }
