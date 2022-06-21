@@ -13,7 +13,7 @@ variable "create_organization" {
   type        = bool
   default     = true
 }
-variable "oauth_token" {
+variable "github_pat_token" {
   description = "GitHub Personal Access Token"
   type        = string
 }
