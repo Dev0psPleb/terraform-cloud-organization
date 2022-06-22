@@ -88,13 +88,14 @@ jobs:
             -input=false \
             -no-color \
             tfplan && \
-            pwd
+            echo "artifactPath=$(pwd)/terraform.tfstate" >> $GITHUB_ENV && \
+            echo ${{ env.artifactPath }}
 
       - name: Statefile artifact
         uses: actions/upload-artifact@v2
         with:
           name: terraformstatefile
-          path: ${{ github.workspace }}/terraform.tfstate
+          path: ${{ env.artifactPath }}
           if-no-files-found: error
 
       - name: Post Plan and Apply to GitHub PR
