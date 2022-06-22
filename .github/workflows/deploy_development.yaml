@@ -88,13 +88,14 @@ jobs:
             -input=false \
             -no-color \
             tfplan && \
-            ls -lah
+            ls -lah && \
+            pwd
 
       - name: Statefile artifact
         uses: actions/upload-artifact@v3
         with:
           name: terraformstatefile
-          path: ./${{ matrix.path }}/terraform.tfstate
+          path: ${{ matrix.path }}/terraform.tfstate
 
       - name: Post Plan and Apply to GitHub PR
         if: steps.plan.outcome == 'success' && steps.apply.outcome == 'success'
