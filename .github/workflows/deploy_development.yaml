@@ -93,7 +93,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: terraformstatefile
-          path: ./terraform.tfstate
+          path: ${{ github.workspace }}/terraform.tfstate
           if-no-files-found: error
 
       - name: Post Plan and Apply to GitHub PR
