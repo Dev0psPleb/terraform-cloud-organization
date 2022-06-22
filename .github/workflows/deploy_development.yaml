@@ -93,12 +93,11 @@ jobs:
             -no-color \
             tfplan
 
-      - name: migrate
-        if: steps.plan.outcome == 'success' && steps.apply.outcome == 'success'
-        run: |
-          read -r input < <(terraform init)
-          [[ $input = "yes" ]] && echo "OK"
-        shell: bash
+      - name: Statefile artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: statefile
+          path: ./*.tfstate
 
       - name: Post Plan and Apply to GitHub PR
         if: steps.plan.outcome == 'success' && steps.apply.outcome == 'success'
