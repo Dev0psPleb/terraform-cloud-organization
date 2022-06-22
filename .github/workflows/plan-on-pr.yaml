@@ -87,7 +87,7 @@ jobs:
           TF_VAR_terraform_api_token: ${{ secrets.TF_API_TOKEN }}
           TF_VAR_working_directory: "./environment/${{ matrix.path }}"
           TF_VAR_workspace_name: workspace_test
-          TF_VAR_vcs_branch: ${{ env.GITHUB_REF_SLUG }}
+          TF_VAR_vcs_branch: ${{ github.head_ref || github.ref_name }}
           TF_VAR_vcs_repository: ${{ github.repository }}
 
       - name: Reformat Plan
