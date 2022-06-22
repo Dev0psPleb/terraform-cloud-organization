@@ -9,10 +9,7 @@
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_local"></a> [local](#provider\_local) | n/a |
-| <a name="provider_template"></a> [template](#provider\_template) | 2.2.0 |
+No providers.
 
 ## Modules
 
@@ -24,10 +21,7 @@
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [local_file.remote_state](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
-| [template_file.remote_state](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
+No resources.
 
 ## Inputs
 
