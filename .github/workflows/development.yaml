@@ -1,9 +1,8 @@
-# plan-apply-on-merge.yaml
-name: Plan /Apply On Merge
+name: Plan and Apply on merge
 
 on:
   push:
-    branches: [main, development, staging]
+    branches: [main,development,staging]
 defaults:
   run:
     working-directory: ./environment
@@ -31,7 +30,6 @@ jobs:
       fail-fast: false
       matrix:
         path: [esg_se_xdr_demo_prod]
-
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -79,67 +77,15 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
 
       - name: Apply Terraform
+        uses: sturlabragason/terraform_state_artifact@v1
         if: steps.plan.outcome == 'success'
         id: apply
         continue-on-error: true
-        run: |
-          cd ${{ matrix.path }}
-          terraform apply \
-            -input=false \
-            -no-color \
-            tfplan
-
-      - name: Statefile artifact
-        uses: actions/upload-artifact@v3
         with:
-          name: statefile
-          path: ./*.tfstate
+          encryptionkey: ${{ secrets.encryptionkey }}
+          apply: true
+          custom_apply_flags: '-no-color -input=false tfplan'
 
-      - name: Post Plan and Apply to GitHub PR
-        if: steps.plan.outcome == 'success' && steps.apply.outcome == 'success'
-        uses: mshick/add-pr-comment@v1
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          repo-token-user-login: 'github-actions[bot]'
-          message: |
-            Applying **${{ matrix.path }}**:
-            ```diff
-            ${{ env.PLAN }}
-            ```
 
-            ```
-            ${{ steps.apply.outputs.stdout }}
-            ```
-      - name: Post Plan Failure
-        if: steps.plan.outcome == 'failure'
-        uses: mshick/add-pr-comment@v1
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          repo-token-user-login: 'github-actions[bot]'
-          message: |
-            Plan failed for **${{ matrix.path }}**:
-            ```
-            ${{ steps.plan.outputs.stderr }}
-            ```
-      - name: Post Apply Failure
-        if: steps.apply.outcome == 'failure'
-        uses: mshick/add-pr-comment@v1
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          repo-token-user-login: 'github-actions[bot]'
-          message: |
-            Apply failed for **${{ matrix.path }}**:
 
-            ```
-            ${{ steps.apply.outputs.stderr }}
-            ```
-      - name: Destroy Terraform
-        if: steps.apply.outcome == 'failure'
-        id: destroy
-        continue-on-error: true
-        run: |
-          cd ${{ matrix.path }}
-          terraform destroy \
-            -input=false \
-            -no-color \
-            tfplan
+
