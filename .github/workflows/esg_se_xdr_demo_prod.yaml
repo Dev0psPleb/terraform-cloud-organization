@@ -39,9 +39,6 @@ jobs:
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
 
-
-
-# And you get this  =>
       - name: Print slug/short variables
         run: |
           echo "Slug variables"
