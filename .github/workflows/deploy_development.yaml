@@ -24,7 +24,7 @@ jobs:
             Results will display here momentarily...
 
   plan_and_apply:
-    name: Plan and Apply ESG SE XDR Demo Prod
+    name: Plan and Apply to Development Environment
     runs-on: macos-latest
     environment: development
     strategy:
@@ -39,28 +39,6 @@ jobs:
       - name: Inject slug/short variables
         id: slug
         uses: rlespinasse/github-slug-action@v3.x
-
-      - name: Post slug variables to PR
-        uses: mshick/add-pr-comment@v1
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          repo-token-user-login: 'github-actions[bot]'
-          message: |
-            ## Slug Variables:
-            ```
-            Reference Slug: ${{ env.GITHUB_REF_SLUG }}
-            Head Reference Slug: ${{ env.GITHUB_HEAD_REF_SLUG }}
-            Base Reference Slug: ${{ env.GITHUB_BASE_REF_SLUG }}
-            Repository Slug: ${{ env.GITHUB_REPOSITORY_SLUG }}
-            ```
-
-            ## Slug URL Variables:
-            ```
-            Reference Slug URL: ${{ env.GITHUB_REF_SLUG_URL }}
-            Head Reference Slug URL: ${{ env.GITHUB_HEAD_REF_SLUG_URL }}
-            Base Reference Slug URL: ${{ env.GITHUB_BASE_REF_SLUG_URL }}
-            Repository Slug URL: ${{ env.GITHUB_REPOSITORY_SLUG_URL }}
-            ```
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -114,6 +92,12 @@ jobs:
             -input=false \
             -no-color \
             tfplan
+
+      - name: Migrate Terraform State
+        if: steps.plan.outcome == 'success' && steps.apply.outcome == 'success'
+        run: |
+          read -r input < <(terraform init)
+          [[ $input = "yes" ]] && echo "OK"
 
       - name: Post Plan and Apply to GitHub PR
         if: steps.plan.outcome == 'success' && steps.apply.outcome == 'success'
