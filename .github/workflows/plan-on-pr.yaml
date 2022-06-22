@@ -47,17 +47,17 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           repo-token-user-login: 'github-actions[bot]'
           message: |
-            # Slug Variables:
-            echo " - ${{ env.GITHUB_REF_SLUG }}"
-            echo " - ${{ env.GITHUB_HEAD_REF_SLUG }}"
-            echo " - ${{ env.GITHUB_BASE_REF_SLUG }}"
-            echo " - ${{ env.GITHUB_REPOSITORY_SLUG }}"
+            ## Slug Variables:
+            " - ${{ env.GITHUB_REF_SLUG }}"
+            " - ${{ env.GITHUB_HEAD_REF_SLUG }}"
+            " - ${{ env.GITHUB_BASE_REF_SLUG }}"
+            " - ${{ env.GITHUB_REPOSITORY_SLUG }}"
 
-            # Slug URL Variables:
-            echo " - ${{ env.GITHUB_REF_SLUG_URL }}"
-            echo " - ${{ env.GITHUB_HEAD_REF_SLUG_URL }}"
-            echo " - ${{ env.GITHUB_BASE_REF_SLUG_URL }}"
-            echo " - ${{ env.GITHUB_REPOSITORY_SLUG_URL }}"
+            ## Slug URL Variables:
+            " - ${{ env.GITHUB_REF_SLUG_URL }}"
+            " - ${{ env.GITHUB_HEAD_REF_SLUG_URL }}"
+            " - ${{ env.GITHUB_BASE_REF_SLUG_URL }}"
+            " - ${{ env.GITHUB_REPOSITORY_SLUG_URL }}"
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
