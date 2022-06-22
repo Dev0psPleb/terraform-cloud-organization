@@ -24,7 +24,7 @@ jobs:
             Results will display here momentarily...
 
   plan_and_apply:
-    name: Plan and Apply ESG SE XDR Demo Prod
+    name: Plan and Apply to Development Environment
     runs-on: macos-latest
     environment: development
     strategy:
@@ -92,6 +92,12 @@ jobs:
             -input=false \
             -no-color \
             tfplan
+
+      - name: Migrate Terraform State
+        if: steps.plan.outcome == 'success' && steps.apply.outcome == 'success'
+        run: |
+          read -r input < <(terraform init)
+          [[ $input = "yes" ]] && echo "OK"
 
       - name: Post Plan and Apply to GitHub PR
         if: steps.plan.outcome == 'success' && steps.apply.outcome == 'success'

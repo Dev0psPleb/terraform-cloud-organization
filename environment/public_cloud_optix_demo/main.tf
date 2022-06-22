@@ -3,19 +3,6 @@ locals {
   workspace_name    = lower(replace("${var.workspace_name} ${var.vcs_branch}", " ", "_"))
 }
 
-data "template_file" "remote_state" {
-  template = file("${path.module}/templates/remote.tf.tpl")
-  vars = {
-    organization = local.organization_name
-    workspace    = local.workspace_name
-  }
-}
-
-resource "local_file" "remote_state" {
-  content  = data.template_file.remote_state.rendered
-  filename = "${path.module}/remote.tf"
-}
-
 module "organization" {
   source              = "../../modules/terraform_cloud_organization"
   admin_email         = var.admin_email
