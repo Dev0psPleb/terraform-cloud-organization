@@ -36,6 +36,27 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
+
+      - name: Print slug/short variables
+        run: |
+          echo "Slug variables"
+          echo " - ${{ env.GITHUB_REF_SLUG }}"
+          echo " - ${{ env.GITHUB_HEAD_REF_SLUG }}"
+          echo " - ${{ env.GITHUB_BASE_REF_SLUG }}"
+          echo " - ${{ env.GITHUB_REPOSITORY_SLUG }}"
+          # output e.g. : master feat-new-feature v1.0.0 product-1.0.0-rc.2 new-awesome-product
+          echo "Slug URL variables"
+          echo " - ${{ env.GITHUB_REF_SLUG_URL }}"
+          echo " - ${{ env.GITHUB_HEAD_REF_SLUG_URL }}"
+          echo " - ${{ env.GITHUB_BASE_REF_SLUG_URL }}"
+          echo " - ${{ env.GITHUB_REPOSITORY_SLUG_URL }}"
+          # output e.g. : master feat-new-feature v1-0-0 product-1-0-0-rc-2 new-awesome-product
+          echo "Short SHA variables"
+          echo " - ${{ env.GITHUB_SHA_SHORT }}"
+          # output e.g. : ffac537e
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -60,7 +81,7 @@ jobs:
           TF_VAR_terraform_api_token: ${{ secrets.TF_API_TOKEN }}
           TF_VAR_working_directory: ${{ matrix.path }}
           TF_VAR_workspace_name: org_workspace
-          TF_VAR_vcs_branch: ${{ github.ref }}
+          TF_VAR_vcs_branch: ${{ env.GITHUB_BASE_REF_SLUG }}"
           TF_VAR_vcs_repository: ${{ github.repository }}
 
       - name: Reformat Plan

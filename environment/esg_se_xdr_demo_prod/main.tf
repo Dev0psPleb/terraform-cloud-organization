@@ -1,7 +1,12 @@
+locals {
+  organization_name = lower(replace("${var.organization_name}", " ", "_"))
+  workspace_name    = lower(replace("${var.workspace_name}", " ", "_"))
+}
+
 module "organization" {
   source              = "../../modules/terraform_cloud_organization"
   admin_email         = var.admin_email
-  organization_name   = var.organization_name
+  organization_name   = local.organization_name
   create_organization = var.create_organization
 }
 
@@ -24,7 +29,7 @@ module "workspace" {
   execution_mode                = var.execution_mode
   file_triggers_enabled         = var.file_triggers_enabled
   global_remote_state           = var.global_remote_state
-  name                          = var.workspace_name
+  name                          = local.workspace_name
   oauth_token_id                = module.oauth_client.oauth_token_id
   organization                  = module.organization.organization_id
   queue_all_runs                = var.queue_all_runs
