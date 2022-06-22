@@ -1,6 +1,6 @@
 locals {
-  organization_name = lower(replace("${var.organization_name}", " ", "_"))
-  workspace_name    = lower(replace("${var.workspace_name}", " ", "_"))
+  organization_name = lower(replace("${var.organization_name} ${var.vcs_branch}", " ", "_"))
+  workspace_name    = lower(replace("${var.workspace_name} ${var.vcs_branch}", " ", "_"))
 }
 
 module "organization" {
