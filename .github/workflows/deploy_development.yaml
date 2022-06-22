@@ -93,12 +93,6 @@ jobs:
             -no-color \
             tfplan
 
-      - name: Migrate Terraform State
-        if: steps.plan.outcome == 'success' && steps.apply.outcome == 'success'
-        run: |
-          read -r input < <(terraform init)
-          [[ $input = "yes" ]] && echo "OK"
-
       - name: Post Plan and Apply to GitHub PR
         if: steps.plan.outcome == 'success' && steps.apply.outcome == 'success'
         uses: mshick/add-pr-comment@v1
@@ -148,3 +142,18 @@ jobs:
             -no-color \
             tfplan
 
+  migrate_state:
+    name: Migrate State
+    runs-on: macos-latest
+    environment: development
+    strategy:
+      fail-fast: false
+      matrix:
+        path: [esg_se_xdr_demo_prod]
+
+    steps:
+      - id: migrate
+        run: |
+          read -r input < <(terraform init)
+          [[ $input = "yes" ]] && echo "OK"
+        shell: bash
