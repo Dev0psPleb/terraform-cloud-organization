@@ -37,25 +37,30 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Inject slug/short variables
+        id: slug
         uses: rlespinasse/github-slug-action@v3.x
 
-      - name: Print slug/short variables
-        run: |
-          echo "Slug variables"
-          echo " - ${{ env.GITHUB_REF_SLUG }}"
-          echo " - ${{ env.GITHUB_HEAD_REF_SLUG }}"
-          echo " - ${{ env.GITHUB_BASE_REF_SLUG }}"
-          echo " - ${{ env.GITHUB_REPOSITORY_SLUG }}"
-          # output e.g. : master feat-new-feature v1.0.0 product-1.0.0-rc.2 new-awesome-product
-          echo "Slug URL variables"
-          echo " - ${{ env.GITHUB_REF_SLUG_URL }}"
-          echo " - ${{ env.GITHUB_HEAD_REF_SLUG_URL }}"
-          echo " - ${{ env.GITHUB_BASE_REF_SLUG_URL }}"
-          echo " - ${{ env.GITHUB_REPOSITORY_SLUG_URL }}"
-          # output e.g. : master feat-new-feature v1-0-0 product-1-0-0-rc-2 new-awesome-product
-          echo "Short SHA variables"
-          echo " - ${{ env.GITHUB_SHA_SHORT }}"
-          # output e.g. : ffac537e
+      - name: Post slug variables to PR
+        uses: mshick/add-pr-comment@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]'
+          message: |
+            ## Slug Variables:
+            ```
+            Reference Slug: ${{ env.GITHUB_REF_SLUG }}
+            Head Reference Slug: ${{ env.GITHUB_HEAD_REF_SLUG }}
+            Base Reference Slug: ${{ env.GITHUB_BASE_REF_SLUG }}
+            Repository Slug: ${{ env.GITHUB_REPOSITORY_SLUG }}
+            ```
+
+            ## Slug URL Variables:
+            ```
+            Reference Slug URL: ${{ env.GITHUB_REF_SLUG_URL }}
+            Head Reference Slug URL: ${{ env.GITHUB_HEAD_REF_SLUG_URL }}
+            Base Reference Slug URL: ${{ env.GITHUB_BASE_REF_SLUG_URL }}
+            Repository Slug URL: ${{ env.GITHUB_REPOSITORY_SLUG_URL }}
+            ```
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
