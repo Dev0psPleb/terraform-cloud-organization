@@ -92,8 +92,8 @@ jobs:
       - name: Statefile artifact
         uses: actions/upload-artifact@v3
         with:
-          name: statefile
-          path: ./*.tfstate
+          name: terraformstatefile
+          path: ./terraform.tfstate
 
       - name: Post Plan and Apply to GitHub PR
         if: steps.plan.outcome == 'success' && steps.apply.outcome == 'success'
