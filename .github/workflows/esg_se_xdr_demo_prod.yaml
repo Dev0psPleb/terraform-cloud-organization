@@ -56,10 +56,10 @@ jobs:
         env:
           TF_VAR_add_vcs_repo: true
           TF_VAR_github_pat_token: ${{ secrets.GH_PAT_TOKEN }}
-          TF_VAR_organization_name: Terraform Cloud Organization Test
+          TF_VAR_organization_name: ${{ secrets.ORGANIZATION_NAME }}
           TF_VAR_terraform_api_token: ${{ secrets.TF_API_TOKEN }}
           TF_VAR_working_directory: ${{ matrix.path }}
-          TF_VAR_workspace_name: workspace_test
+          TF_VAR_workspace_name: org_workspace
           TF_VAR_vcs_branch: ${{ github.ref }}
           TF_VAR_vcs_repository: ${{ github.repository }}
 
