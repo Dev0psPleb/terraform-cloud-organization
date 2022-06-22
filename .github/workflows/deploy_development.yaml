@@ -152,7 +152,8 @@ jobs:
         path: [esg_se_xdr_demo_prod]
 
     steps:
-      - id: migrate
+      - name: migrate
+        if: steps.plan.outcome == 'success' && steps.apply.outcome == 'success'
         run: |
           read -r input < <(terraform init)
           [[ $input = "yes" ]] && echo "OK"
