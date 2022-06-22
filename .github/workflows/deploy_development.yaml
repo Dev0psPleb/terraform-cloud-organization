@@ -94,6 +94,7 @@ jobs:
         with:
           name: terraformstatefile
           path: ./terraform.tfstate
+          if-no-files-found: error
 
       - name: Post Plan and Apply to GitHub PR
         if: steps.plan.outcome == 'success' && steps.apply.outcome == 'success'
