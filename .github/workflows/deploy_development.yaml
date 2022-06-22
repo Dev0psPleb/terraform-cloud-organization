@@ -144,7 +144,7 @@ jobs:
 
   migrate_state:
     name: Migrate State
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     environment: development
     strategy:
       fail-fast: false
