@@ -114,9 +114,28 @@ jobs:
           path: ./terraform.tfstate
 
       - name: Verify artifact
-        uses: actions/xSAVIKx/artifact-exists-action@v0
+        id: verify
+        uses: xSAVIKx/artifact-exists-action@v0
         with:
           name: 'statefile'
+
+      - name: Post artifact success to PR
+        if: steps.verify.outcome == 'success'
+        uses: mshick/add-pr-comment@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]'
+          message: |
+            Statefile successfully uploaded as artifact!
+
+      - name: Post artifact failure to PR
+        if: steps.verify.outcome == 'failure'
+        uses: mshick/add-pr-comment@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]'
+          message: |
+            Statefile failed to upload as an artifact!
 
       - name: Post Plan and Apply to GitHub PR
         if: steps.plan.outcome == 'success' && steps.apply.outcome == 'success'
