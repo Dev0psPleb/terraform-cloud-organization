@@ -15,6 +15,7 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         id: cpr
         with:
+          token: ${{ secrets.GH_PAT_TOKEN }}
           base: development
           branch: ${{ github.head_ref || github.ref_name }}
       - name: Check outputs
