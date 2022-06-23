@@ -52,8 +52,22 @@ jobs:
         continue-on-error: true
         run: |
           cd ${{ matrix.path }}
-          terraform plan -input=false -no-color -out=tfplan \
-          && terraform show -no-color tfplan
+          $Repo = "${{ github.repository }}"
+          $BaseUri = "https://api.github.com"
+          $ArtifactUri = "$BaseUri/repos/$Repo/actions/artifacts"
+          $Token = "${{ github.token }}" | ConvertTo-SecureString -AsPlainText
+          $RestResponse = Invoke-RestMethod -Authentication Bearer -Uri $ArtifactUri -Token $Token | Select-Object -ExpandProperty artifacts
+          if ($RestResponse){
+            $MostRecentArtifactURI = $RestResponse | Sort-Object -Property created_at -Descending | where name -eq "terraformstatefile" | Select-Object -First 1 | Select-Object -ExpandProperty archive_download_url
+            Write-Host "Most recent artifact URI = $MostRecentArtifactURI"
+            if ($MostRecentArtifactURI){
+              Invoke-RestMethod -uri $MostRecentArtifactURI -Token $Token -Authentication bearer -outfile ./state.zip
+              Expand-Archive ./state.zip
+              openssl enc -d -in ./state/terraform.tfstate.enc -aes-256-cbc -pbkdf2 -pass pass:"${{ secrets.ENCRYPTION_KEY }}" -out ./terraform.tfstate
+            }
+          }
+          terraform plan -input=false -no-color -out=tfplan
+          terraform show -no-color tfplan
         env:
           TF_VAR_add_vcs_repo: true
           TF_VAR_admin_email: ${{ secrets.ADMIN_EMAIL }}
@@ -63,7 +77,7 @@ jobs:
           TF_VAR_terraform_api_token: ${{ secrets.TF_API_TOKEN }}
           TF_VAR_working_directory: "./environment/${{ matrix.path }}"
           TF_VAR_workspace_name: org_workspace
-          TF_VAR_vcs_branch: ${{ github.head_ref || github.ref_name }}
+          TF_VAR_vcs_branch: development
           TF_VAR_vcs_repository: ${{ github.repository }}
 
       - name: Reformat Plan
