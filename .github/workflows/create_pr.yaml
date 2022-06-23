@@ -1,0 +1,27 @@
+name: Create Pull Request
+on:
+  push:
+    branches: ['*', '!main']
+defaults:
+  run:
+    working-directory: ./environment
+
+jobs:
+  pr:
+    name: create pr on development branch
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: create pull request
+        uses: peter-evans/create-pull-request@v4
+        id: cpr
+        with:
+          base: development
+          branch: ${{ github.head_ref || github.ref_name }}
+      - name: Check outputs
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
