@@ -78,27 +78,25 @@ jobs:
           echo "$PLAN" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Download statefile
-        uses: actions/download-artifact@v3
-        id: download
-        continue-on-error: true
-        with:
-          name: terraformstatefile
-          path: $GITHUB_WORKSPACE
-
-      - name: 'Echo download path'
-        run: echo ${{steps.download.outputs.download-path}}
-
       - name: Apply Terraform
         if: steps.plan.outcome == 'success'
         id: apply
         continue-on-error: true
         run: |
           cd ${{ matrix.path }}
-          terraform apply \
-            -input=false \
-            -no-color \
-            tfplan && \
+          REPO="${{ github.repository }}"
+          BASEURI="https://api.github.com"
+          TOKEN="${{ github.token }}"
+          ARTIFACTURI=$BASEURI/$REPO/actions/artifacts
+          DOWNLOADURI=$(curl \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token $TOKEN" \
+            $ARTIFACTURI | jq '.artifacts[] | select(.name == "terraformstatefile") | .archive_download_url' | xargs)  \
+          if [ -z "$DOWNLOADURI" ]
+          then
+            terraform apply -input=false -no-color tfplan
+          else
+            curl
           STATE_FILE=./terraform.tfstate
           if [[ -f "$STATE_FILE" ]]; then
             openssl enc -e -a -aes256 -pbkdf2 -k ${{ secrets.ENCRYPTION_KEY }} -in ./terraform.tfstate -out ./terraform.tfstate.enc

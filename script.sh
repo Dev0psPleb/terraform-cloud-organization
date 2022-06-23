@@ -12,7 +12,7 @@ get_artifacts() {
   curl \
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: token $TOKEN" \
-    $artifactUri
+    $artifactUri | jq '.artifacts[] | select(.name == "terraformstatefile") | .archive_download_url'
 }
 
 #encrypt_state() {
@@ -21,8 +21,8 @@ get_artifacts() {
 #}
 
 terraform_state_artifacts(){
-  get_artifacts | jq '.artifacts[]'
+  get_artifacts | jq '.artifacts[] | select(.name == "terraformstatefile")'
 }
 
 get_artifacts
-#terraform_state_artifacts
+
