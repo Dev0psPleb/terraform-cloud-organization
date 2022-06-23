@@ -98,10 +98,10 @@ jobs:
               openssl enc -d -in ./terraform.tfstate.enc -aes-256-cbc -pbkdf2 -pass pass:"${{ secrets.ENCRYPTION_KEY }}" -out ./terraform.tfstate
              }
           }
-          terraform apply \
-            -input=false \
-            -no-color \
-            tfplan \
+          terraform apply `
+          -input=false `
+          -no-color `
+          tfplan
           echo "artifactPath=$(pwd)/terraform.tfstate.enc" >> $GITHUB_ENV
         shell: pwsh
 
