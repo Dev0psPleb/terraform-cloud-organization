@@ -1,32 +1,28 @@
 name: automerge
 on:
-
-  pull_request_target:
+  pull_request:
     types:
-      - opened
-      - synchronize
-      - reopened
-      - edited
       - labeled
-      - unlabeled
-      - ready_for_review
-
-  workflow_dispatch:
-    inputs:
-      pull-request:
-        description: Pull Request Number
-        required: false
-
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
+  status: {}
 jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
-      - uses: reitermarkus/automerge@v2
-        with:
-          token: ${{ secrets.MY_GITHUB_TOKEN }}
-          merge-method: rebase
-          do-not-merge-labels: never-merge
-          required-labels: automerge
-          pull-request: ${{ github.event.inputs.pull-request }}
-          dry-run: true
+      - id: automerge
+        name: automerge
+        uses: "pascalgn/automerge-action@v0.15.3"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GH_PAT_TOKEN }}"
+          MERGE_LABELS: automerge
+          MERGE_REMOVE_LABELS: automerge
+          MERGE_RETRIES: 10
+          MERGE_RETRY_SLEEP: 10000
+          MERGE_DELETE_BRANCH: true
+          MERGE_DELETE_BRANCH_FILTER: main,development,staging
 
