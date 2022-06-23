@@ -24,7 +24,7 @@ jobs:
           destination_branch: "development"
           pr_template: ".github/PULL_REQUEST_TEMPLATE.md"
           body: ":crown: **Automated pull request**"
-          pr_label: auto_pr,automerge
+          pr_label: automerge
       - name: output-url
         run: echo ${{steps.open-pr.outputs.pr_url}}
       - name: output-number
