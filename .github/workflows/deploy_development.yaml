@@ -95,7 +95,7 @@ jobs:
             if ($MostRecentArtifactURI){
               Invoke-RestMethod -uri $MostRecentArtifactURI -Token $Token -Authentication bearer -outfile ./state.zip
               Expand-Archive ./state.zip
-              openssl enc -d -in ./terraform.tfstate.enc -aes-256-cbc -pbkdf2 -pass pass:"${{ secrets.ENCRYPTION_KEY }}" -out ./terraform.tfstate.enc
+              openssl enc -d -in ./terraform.tfstate.enc -aes-256-cbc -pbkdf2 -pass pass:"${{ secrets.ENCRYPTION_KEY }}" -out ./terraform.tfstate
              }
           }
           terraform apply `
@@ -103,7 +103,11 @@ jobs:
           -no-color `
           tfplan `
           ls `
-          echo "artifactPath=$(pwd)/terraform.tfstate.enc" >> $GITHUB_ENV
+          $StateExists = Test-Path -Path ./terraform.tfstate -PathType Leaf
+          if ($StateExists){
+            openssl enc -in ./terraform.tfstate -aes-256-cbc -pbkdf2 -pass pass:"${{ inputs.encryptionkey }}" -out ./terraform.tfstate.enc
+            echo "artifactPath=$(pwd)/terraform.tfstate.enc" >> $GITHUB_ENV
+          }
         shell: pwsh
 
       - name: Statefile artifact
