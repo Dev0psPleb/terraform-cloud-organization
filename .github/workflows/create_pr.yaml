@@ -2,9 +2,6 @@ name: Create Pull Request
 on:
   push:
     branches: ['*', '!main']
-defaults:
-  run:
-    working-directory: ./environment
 
 jobs:
   pr:
