@@ -1,7 +1,11 @@
 name: Create Pull Request
 on:
   push:
-    branches: ['*', '!main']
+    branches:
+      - '*'
+      - '!main'
+      - '!development'
+      - '!staging'
 
 jobs:
   pr:
@@ -12,14 +16,18 @@ jobs:
         uses: actions/checkout@v2
 
       - name: create pull request
-        uses: devops-infra/action-pull-request@v0.4.2
-        id: cpr
+        uses: repo-sync/pull-request@v2
+        id: open-pr
         with:
-          title: Actions Pull Request
+          pr_title: auto_pull_request
           github_token: ${{ secrets.GH_PAT_TOKEN }}
-          target_branch: development
-          template: .github/PULL_REQUEST_TEMPLATE.md
-          body: "**Automated pull request**"
-      - name: Check outputs
-        run: |
-          echo "Pull Request URL - ${{ steps.cpr.outputs.url }}"
+          destination_branch: "development"
+          pr_template: ".github/PULL_REQUEST_TEMPLATE.md"
+          body: ":crown: **Automated pull request**"
+          pr_label: "auto_pr"
+      - name: output-url
+        run: echo ${{steps.open-pr.outputs.pr_url}}
+      - name: output-number
+        run: echo ${{steps.open-pr.outputs.pr_number}}
+      - name: output-has-changed-files
+        run: echo ${{steps.open-pr.outputs.has_changed_files}}

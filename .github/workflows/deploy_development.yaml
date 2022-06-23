@@ -98,11 +98,7 @@ jobs:
               openssl enc -d -in ./terraform.tfstate.enc -aes-256-cbc -pbkdf2 -pass pass:"${{ secrets.ENCRYPTION_KEY }}" -out ./terraform.tfstate
              }
           }
-          terraform apply `
-          -input=false `
-          -no-color `
-          tfplan `
-          ls `
+          terraform apply -input=false -no-color tfplan
           $StateExists = Test-Path -Path ./terraform.tfstate -PathType Leaf
           if ($StateExists){
             openssl enc -in ./terraform.tfstate -aes-256-cbc -pbkdf2 -pass pass:"${{ inputs.encryptionkey }}" -out ./terraform.tfstate.enc
