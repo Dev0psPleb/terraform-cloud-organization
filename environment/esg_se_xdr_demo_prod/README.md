@@ -17,7 +17,6 @@ No providers.
 |------|--------|---------|
 | <a name="module_oauth_client"></a> [oauth\_client](#module\_oauth\_client) | ../../modules/tfe_oauth_client | n/a |
 | <a name="module_organization"></a> [organization](#module\_organization) | ../../modules/terraform_cloud_organization | n/a |
-| <a name="module_workspace"></a> [workspace](#module\_workspace) | ../../modules/terraform_cloud_workspace | n/a |
 
 ## Resources
 
