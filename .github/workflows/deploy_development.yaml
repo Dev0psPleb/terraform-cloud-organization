@@ -79,6 +79,7 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
 
       - name: Download statefile
+        uses: actions/download-artifact@v3
         id: download
         continue-on-error: true
         with:
