@@ -15,10 +15,10 @@ get_artifacts() {
     $artifactUri
 }
 
-encrypt_state() {
-  if test -f terraform.tfstate;
-    openssl enc -in ./terraform.tfstate -aes256 -pbkdf2 -k ${{ secrets.encryptionkey }} -out ./terraform.tfstate.enc
-}
+#encrypt_state() {
+#  if test -f terraform.tfstate;
+#    openssl enc -in ./terraform.tfstate -aes256 -pbkdf2 -k ${{ secrets.encryptionkey }} -out .#/terraform.tfstate.enc
+#}
 
 terraform_state_artifacts(){
   get_artifacts | jq '.artifacts[]'
