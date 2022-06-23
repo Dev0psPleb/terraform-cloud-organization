@@ -52,6 +52,7 @@ jobs:
         continue-on-error: true
         run: |
           cd ${{ matrix.path }}
+          Get-ChildItem -Path Env: -Recurse -Include TF_VAR_* | ForEach-Object {Write-Output "$($_.Name)=$($_.Value)"} >> $env:GITHUB_ENV
           $Repo = "${{ github.repository }}"
           $BaseUri = "https://api.github.com"
           $ArtifactUri = "$BaseUri/repos/$Repo/actions/artifacts"
@@ -68,6 +69,7 @@ jobs:
           }
           terraform plan -input=false -no-color -out=tfplan
           terraform show -no-color tfplan
+        shell: pwsh
         env:
           TF_VAR_add_vcs_repo: true
           TF_VAR_admin_email: ${{ secrets.ADMIN_EMAIL }}
