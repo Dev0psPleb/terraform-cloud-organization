@@ -84,12 +84,26 @@ jobs:
         continue-on-error: true
         run: |
           cd ${{ matrix.path }}
+          $Repo = "${{ github.repository }}"
+          $BaseUri = "https://api.github.com"
+          $ArtifactUri = "$BaseUri/repos/$Repo/actions/artifacts"
+          $Token = "${{ github.token }}" | ConvertTo-SecureString -AsPlainText
+          $RestResponse = Invoke-RestMethod -Authentication Bearer -Uri $ArtifactUri -Token $Token | Select-Object -ExpandProperty artifacts
+          if ($RestResponse){
+            $MostRecentArtifactURI = $RestResponse | Sort-Object -Property created_at -Descending | where name -eq "terraformstatefile" | Select-Object -First 1 | Select-Object -ExpandProperty archive_download_url
+            Write-Host "Most recent artifact URI = $MostRecentArtifactURI"
+            if ($MostRecentArtifactURI){
+              Invoke-RestMethod -uri $MostRecentArtifactURI -Token $Token -Authentication bearer -outfile ./state.zip
+              Expand-Archive ./state.zip
+              openssl enc -d -in ./state/terraform.tfstate.enc -aes-256-cbc -pbkdf2 -pass pass:"${{ secrets.ENCRYPTION_KEY }}" -out ./terraform.tfstate
+             }
+          }
           terraform apply \
             -input=false \
             -no-color \
-            tfplan && \
-            echo "artifactPath=$(pwd)/terraform.tfstate" >> $GITHUB_ENV && \
-            echo ${{ env.artifactPath }}
+            tfplan \
+          echo "artifactPath=$(pwd)/terraform.tfstate.enc" >> $GITHUB_ENV
+        shell: pwsh
 
       - name: Statefile artifact
         uses: actions/upload-artifact@v2
