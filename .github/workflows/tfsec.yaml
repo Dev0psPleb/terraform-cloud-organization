@@ -29,11 +29,12 @@ jobs:
         uses: aquasecurity/tfsec-pr-commenter-action@v1.2.0
         with:
           github_token: ${{ github.token }}
-          tfsec_args: --no-module-downloads --soft-fail --out ./results
-          working_directory: ${{ GITHUB_WORKSPACE }}
+          tfsec_args: --soft-fail
+          working_directory: ${{ env.GITHUB_WORKSPACE }}
       - name: Put results in Env Var
         run: |
-          RESULTS=$(cat ./results)
+          cd ${{ matrix.path }}
+          RESULTS=$(cat ./results.json)
           echo "RESULTS<<EOF" >> $GITHUB_ENV
           echo "$RESULTS" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
