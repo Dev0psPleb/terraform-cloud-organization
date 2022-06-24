@@ -33,7 +33,7 @@ jobs:
           working_directory: ${{ env.GITHUB_WORKSPACE }}
       - name: Put results in Env Var
         run: |
-          cd ${{ matrix.path }}
+          cd ${{ env.GITHUB_WORKSPACE }}
           RESULTS=$(cat ./results.json)
           echo "RESULTS<<EOF" >> $GITHUB_ENV
           echo "$RESULTS" >> $GITHUB_ENV
