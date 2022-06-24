@@ -38,7 +38,7 @@ jobs:
           echo "$RESULTS" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       - name: Post results to Github PR
-        uses: mschick/add-pr-comment@v1
+        uses: mshick/add-pr-comment@v1
         with:
           allow-repeats: true
           repo-token: ${{ secrets.GITHUB_TOKEN }}
