@@ -1,0 +1,25 @@
+name: TFSec
+on:
+  pull_request:
+    branches: [main,development,staging]
+defaults:
+  run:
+    working-directory: ./environment
+
+jobs:
+  tfsec:
+    name: tfsec PR commenter
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        path: [esg_se_xdr_demo_prod,nsg_amazon_playground,public_cloud_optix_demo]
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+      - name: tfsec
+        uses: aquasecurity/tfsec-pr-commenter-action@v1.2.0
+        with:
+          github_token: ${{ github.token }}
+          tfsec_args: --no-module-downloads --soft-fail
