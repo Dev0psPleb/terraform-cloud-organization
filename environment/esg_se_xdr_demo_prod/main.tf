@@ -21,22 +21,22 @@ module "oauth_client" {
   tfe_oauth_client_name = var.organization_name
 }
 
-module "workspace" {
-  source                        = "../../modules/terraform_cloud_workspace"
-  allow_destroy_plan            = var.allow_destroy_plan
-  add_vcs_repo                  = var.add_vcs_repo
-  auto_apply                    = var.auto_apply
-  execution_mode                = var.execution_mode
-  file_triggers_enabled         = var.file_triggers_enabled
-  global_remote_state           = var.global_remote_state
-  name                          = local.workspace_name
-  oauth_token_id                = module.oauth_client.oauth_token_id
-  organization                  = module.organization.organization_id
-  queue_all_runs                = var.queue_all_runs
-  speculative_enabled           = var.speculative_enabled
-  structured_run_output_enabled = var.structured_run_output_enabled
-  tags                          = var.tags
-  vcs_repository                = var.vcs_repository
-  vcs_branch                    = var.vcs_branch
-  working_directory             = var.working_directory
-}
+#module "workspace" {
+#  source                        = "../../modules/terraform_cloud_workspace"
+#  allow_destroy_plan            = var.allow_destroy_plan
+#  add_vcs_repo                  = var.add_vcs_repo
+#  auto_apply                    = var.auto_apply
+#  execution_mode                = var.execution_mode
+#  file_triggers_enabled         = var.file_triggers_enabled
+#  global_remote_state           = var.global_remote_state
+#  name                          = local.workspace_name
+#  oauth_token_id                = module.oauth_client.oauth_token_id
+#  organization                  = module.organization.organization_id
+#  queue_all_runs                = var.queue_all_runs
+#  speculative_enabled           = var.speculative_enabled
+#  structured_run_output_enabled = var.structured_run_output_enabled
+#  tags                          = var.tags
+#  vcs_repository                = var.vcs_repository
+#  vcs_branch                    = var.vcs_branch
+#  working_directory             = var.working_directory
+#}

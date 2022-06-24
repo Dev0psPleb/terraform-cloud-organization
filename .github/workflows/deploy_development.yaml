@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        path: [esg_se_xdr_demo_prod]
+        path: [esg_se_xdr_demo_prod,nsg_amazon_playground,public_cloud_optix_demo]
 
     steps:
       - name: Check out code

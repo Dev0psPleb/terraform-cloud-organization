@@ -23,7 +23,7 @@ jobs:
         run: terraform fmt -check -diff -recursive ./
 
   plan_and_test:
-    name: Plan ESG SE XDR Demo Prod
+    name: Plan and Test
     runs-on: macos-latest
     strategy:
       fail-fast: false

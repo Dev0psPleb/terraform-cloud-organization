@@ -19,12 +19,12 @@ jobs:
         uses: repo-sync/pull-request@v2
         id: open-pr
         with:
-          pr_title: auto_pull_request
+          pr_title: Automatic Pull Request
           github_token: ${{ secrets.GH_PAT_TOKEN }}
           destination_branch: "development"
           pr_template: ".github/PULL_REQUEST_TEMPLATE.md"
           body: ":crown: **Automated pull request**"
-          pr_label: automerge
+          pr_label: automerge,auto_pr
       - name: output-url
         run: echo ${{steps.open-pr.outputs.pr_url}}
       - name: output-number
