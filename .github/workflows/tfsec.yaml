@@ -1,5 +1,12 @@
 name: TFSec
 on:
+  push:
+    branches:
+      - '*'
+      - '!main'
+      - '!development'
+      - '!staging'
+
   pull_request:
     branches: [main,development,staging]
 defaults:
@@ -22,4 +29,19 @@ jobs:
         uses: aquasecurity/tfsec-pr-commenter-action@v1.2.0
         with:
           github_token: ${{ github.token }}
-          tfsec_args: --no-module-downloads --soft-fail
+          tfsec_args: --no-module-downloads --soft-fail --out ./results
+          working_directory: ${{ matrix.path }}
+      - name: Put results in Env Var
+        run: |
+          RESULTS=$(cat ./results)
+          echo "RESULTS<<EOF" >> $GITHUB_ENV
+          echo "$RESULTS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      - name: Post results to Github PR
+        uses: mschick/add-pr-comment@v1
+        with:
+          allow-repeats: true
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]'
+          message: |
+            ${{ env.RESULTS }}
