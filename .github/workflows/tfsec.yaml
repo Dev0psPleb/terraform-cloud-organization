@@ -30,7 +30,7 @@ jobs:
         with:
           github_token: ${{ github.token }}
           tfsec_args: --no-module-downloads --soft-fail --out ./results
-          working_directory: ${{ GITHUB_WORKSPACE }}
+          working_directory: ${{ env.GITHUB_WORKSPACE }}
       - name: Put results in Env Var
         run: |
           RESULTS=$(cat ./results)
